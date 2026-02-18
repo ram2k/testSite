@@ -29,66 +29,93 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-  <h1>🚀 GTM Test Website</h1>
 
-  <!-- Button Click Test -->
-  <section>
-    <h2>Button Click Test</h2>
-    <button id="ctaButton">Click Me</button>
-  </section>
+<h1>🚀 GTM йййййй  Test Website</h1>
 
-  <!-- Form Test -->
-  <section>
-    <h2>Form Submission Test</h2>
-    <form id="testForm">
-      <input type="text" placeholder="Your Name" required>
-      <button type="submit">Submit Form</button>
-    </form>
-  </section>
+<!-- Button Click Test -->
+<section>
+  <h2>Button Click Test</h2>
+  <button id="ctaButton">Click Me</button>
+</section>
 
-  <!-- Outbound Link Test -->
-  <section>
-    <h2>Outbound Link Test</h2>
-    <a href="https://google.com" target="_blank">Go to Google</a>
-  </section>
+<!-- Form Test -->
+<section>
+  <h2>Form Submission Test</h2>
+  <form id="testForm">
+    <input type="text" placeholder="Your Name" required>
+    <button type="submit">Submit Form</button>
+  </form>
+</section>
 
-  <!-- Scroll Test -->
-  <section>
-    <h2>Scroll Test Area</h2>
-    <p>Scroll down to trigger scroll depth tracking.</p>
-    <div class="box"></div>
-  </section>
+<!-- Outbound Link Test -->
+<section>
+  <h2>Outbound Link Test</h2>
+  <a href="https://google.com" target="_blank" class="outbound">Go to Google</a>
+</section>
 
-  <!-- Custom dataLayer Event -->
-  <section>
-    <h2>Custom dataLayer Event</h2>
-    <button onclick="purchaseEvent()">Trigger Purchase Event</button>
-  </section>
+<!-- Scroll Test -->
+<section>
+  <h2>Scroll Test Area</h2>
+  <p>Scroll down to trigger scroll depth tracking.</p>
+  <div class="box"></div>
+</section>
 
-  <script>
-    // Button click event
-    document.getElementById("ctaButton").addEventListener("click", function() {
-      console.log("CTA clicked");
-    });
+<!-- Custom dataLayer Event -->
+<section>
+  <h2>Custom dataLayer Event</h2>
+  <button id="purchaseBtn">Trigger Purchase Event</button>
+</section>
 
-    // Form submit event
-    document.getElementById("testForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("Form submitted!");
-      window.location.href = "thank-you.html";
-    });
+<script>
+  // ===== Page View =====
+  // автоматически фиксируется через GTM All Pages tag
 
-    // Custom purchase event
-    function purchaseEvent() {
+  // ===== Button Click Event =====
+  document.getElementById("ctaButton").addEventListener("click", function() {
+    dataLayer.push({ event: "cta_click" });
+    console.log("CTA clicked (dataLayer event sent)");
+  });
+
+  // ===== Form Submit Event =====
+  document.getElementById("testForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    dataLayer.push({ event: "form_submit" });
+    console.log("Form submitted (dataLayer event sent)");
+    window.location.href = "thank-you.html";
+  });
+
+  // ===== Outbound Link Click =====
+  document.querySelectorAll("a.outbound").forEach(function(link){
+    link.addEventListener("click", function() {
       dataLayer.push({
-        event: "purchase",
-        transaction_id: "T12345",
-        value: 99.99,
-        currency: "USD"
+        event: "outbound_click",
+        click_url: this.href
       });
-      alert("Purchase event sent to dataLayer!");
-    }
-  </script>
+      console.log("Outbound link clicked (dataLayer event sent)");
+    });
+  });
 
-</body>
+  // ===== Scroll Depth (simple example) =====
+  window.addEventListener("scroll", function() {
+    const scrollPercent = Math.round((window.scrollY + window.innerHeight) / document.body.scrollHeight * 100);
+    if(scrollPercent >= 25 && !window._scroll25) { dataLayer.push({event:"scroll_depth", percent:25}); window._scroll25=true; }
+    if(scrollPercent >= 50 && !window._scroll50) { dataLayer.push({event:"scroll_depth", percent:50}); window._scroll50=true; }
+    if(scrollPercent >= 75 && !window._scroll75) { dataLayer.push({event:"scroll_depth", percent:75}); window._scroll75=true; }
+    if(scrollPercent >= 100 && !window._scroll100) { dataLayer.push({event:"scroll_depth", percent:100}); window._scroll100=true; }
+  });
+
+  // ===== Purchase Event =====
+  document.getElementById("purchaseBtn").addEventListener("click", function(){
+    dataLayer.push({
+      event: "purchase",
+      transaction_id: "T12345",
+      value: 99.99,
+      currency: "USD"
+    });
+    console.log("Purchase event sent to dataLayer");
+    alert("Purchase event sent!");
+  });
+</script>
+
+  </body>
 </html>
