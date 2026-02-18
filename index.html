@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GTM Test Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <style>
+    body { font-family: Arial; padding: 40px; }
+    section { margin-bottom: 60px; }
+    button { padding: 10px 20px; margin: 10px 0; cursor: pointer; }
+    .box { height: 800px; background: #f2f2f2; margin-top: 20px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager -->
+
+  <h1>🚀 GTM Test Website</h1>
+
+  <!-- Button Click Test -->
+  <section>
+    <h2>Button Click Test</h2>
+    <button id="ctaButton">Click Me</button>
+  </section>
+
+  <!-- Form Test -->
+  <section>
+    <h2>Form Submission Test</h2>
+    <form id="testForm">
+      <input type="text" placeholder="Your Name" required>
+      <button type="submit">Submit Form</button>
+    </form>
+  </section>
+
+  <!-- Outbound Link Test -->
+  <section>
+    <h2>Outbound Link Test</h2>
+    <a href="https://google.com" target="_blank">Go to Google</a>
+  </section>
+
+  <!-- Scroll Test -->
+  <section>
+    <h2>Scroll Test Area</h2>
+    <p>Scroll down to trigger scroll depth tracking.</p>
+    <div class="box"></div>
+  </section>
+
+  <!-- Custom dataLayer Event -->
+  <section>
+    <h2>Custom dataLayer Event</h2>
+    <button onclick="purchaseEvent()">Trigger Purchase Event</button>
+  </section>
+
+  <script>
+    // Button click event
+    document.getElementById("ctaButton").addEventListener("click", function() {
+      console.log("CTA clicked");
+    });
+
+    // Form submit event
+    document.getElementById("testForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Form submitted!");
+      window.location.href = "thank-you.html";
+    });
+
+    // Custom purchase event
+    function purchaseEvent() {
+      dataLayer.push({
+        event: "purchase",
+        transaction_id: "T12345",
+        value: 99.99,
+        currency: "USD"
+      });
+      alert("Purchase event sent to dataLayer!");
+    }
+  </script>
+
+</body>
+</html>
